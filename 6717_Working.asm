@@ -145,115 +145,115 @@ MAKEPATCH 0x0000534C # HvxResolveImports
 
 
 
-MAKEPATCH 0x0000CF80 							# Line Addr
+MAKEPATCH 0x0000CF80 							
 0:
 #Copy Fuses
-	mflr r8 									# 0xCF80
-	lhz r3, 6(r0) 								# 0xCF84 
-	li r4, 0x21									# 0xCF88
-	andc r3, r3, r4 							# 0xCF8C
-	sth r3, 6(r0) 								# 0xCF90
-	bla HvpGetFlashBase # 0x998					# 0xCF94
-	lwz r4, 0x64(r3) 							# 0xCF98
-	lwz r5, 0x70(r3) 							# 0xCF9C
-	add r3, r3, r4 								# 0xCFA0 
-	add r4, r3, r5 								# 0xCFA4
-	lis r3, 1 									# 0xCFA8
-	addi r3, r3, -0x60							# 0xCFAC		
-	li r5, 0xc 									# 0xCFB0
-	bla CopyBy64 	# 0x78C						# 0xCFB4
-	li r3, 0x21									# 0xCFB8 
-	bla 0xCFDC 		 							# 0xCFBC
-	li r3, 0xa									# 0xCFC0
-	bla 0xCFDC 									# 0xCFC4
-	mtlr r8  									# 0xCFC8		
-	ba resumeInit 	# 0x19A4 					# 0xCFCC
+	mflr r8 									
+	lhz r3, 6(r0) 								
+	li r4, 0x21									
+	andc r3, r3, r4 							
+	sth r3, 6(r0) 								
+	bla HvpGetFlashBase # 0x998					
+	lwz r4, 0x64(r3) 							
+	lwz r5, 0x70(r3) 							
+	add r3, r3, r4 								
+	add r4, r3, r5 								
+	lis r3, 1 									
+	addi r3, r3, -0x60								
+	li r5, 0xc 									
+	bla CopyBy64 	# 0x78C						
+	li r3, 0x21									
+	bla 0xCFDC 		 							
+	li r3, 0xa									
+	bla 0xCFDC 									
+	mtlr r8  										
+	ba resumeInit 	# 0x19A4 					
 
 #Fix Fuses
-	lis r3, 1 									# 0xCFD0
-	addi r3, r3, -0x60							# 0xCFD4 	
-	blr 										# 0xCFD8
+	lis r3, 1 									
+	addi r3, r3, -0x60							
+	blr 										
 			
 #Post Output		
-	lis r4, -0x8000 							# 0xCFDC 
-	ori r4, r4, 0x200 							# 0xCFE0
-	sldi r4, r4, 0x20 							# 0xCFE4
-	oris r4, r4, 0xea00 						# 0xCFE8
-	slwi r3, r3, 0x18 							# 0xCFEC
-	stw r3, 0x1014(r4) 							# 0xCFF0
+	lis r4, -0x8000 							
+	ori r4, r4, 0x200 							
+	sldi r4, r4, 0x20 							
+	oris r4, r4, 0xea00 						
+	slwi r3, r3, 0x18 							
+	stw r3, 0x1014(r4) 							
 			
-	lwz r3, 0x1018(r4) 							# 0xCFF4
-	rlwinm. r3, r3, 0, 6, 6 					# 0xCFF8
-	MAKEBEQNOCR 0xcff4 							# 0xCFFC
-	blr 										# 0xD000
+	lwz r3, 0x1018(r4) 							
+	rlwinm. r3, r3, 0, 6, 6 					
+	MAKEBEQNOCR 0xcff4 							
+	blr 										
 		
-	lis r11, 0x7262 							# 0xD004 
-	ori r11, r11, 0x7472 						# 0xD008
-	cmplw cr6, r3, r11 							# 0xD00C
-	MAKEBEQ checkOpType		# 0xD018			# 0xD010
-	ba HvxGetVersions 		# 0x2A48			# 0xD014
+	lis r11, 0x7262 							
+	ori r11, r11, 0x7472 						
+	cmplw cr6, r3, r11 							
+	MAKEBEQ checkOpType		# 0xD018			
+	ba HvxGetVersions 		# 0x2A48			
 			
-#checkOpType: 									# 0xD018
-	cmplwi cr6, r4, 4 							# 0xD018
-	MAKEBGT doMemCpy 	# 0xD0B0				# 0xD01C
-	MAKEBEQ hvxExecuteCode 	# 0xD064			# 0xD020
-	li r5, Hv_setmemprot 	# 0x1570			# 0xD024
-	lis r6, 0x3880 								# 0xD028
-	cmplwi cr6, r4, 2 							# 0xD02C
-	MAKEBNE checkforMemProtectOn # 0xd03c		# 0xD030
-	ori r6, r6, 7 								# 0xD034
-	MAKEBRANCH setMemProtections   # 0xd044		# 0xD038
+#checkOpType: 									
+	cmplwi cr6, r4, 4 							
+	MAKEBGT doMemCpy 	# 0xD0B0				
+	MAKEBEQ hvxExecuteCode 	# 0xD064			
+	li r5, Hv_setmemprot 	# 0x1570			
+	lis r6, 0x3880 								
+	cmplwi cr6, r4, 2 							
+	MAKEBNE checkforMemProtectOn # 0xd03c		
+	ori r6, r6, 7 								
+	MAKEBRANCH setMemProtections   # 0xd044		
 			
-#checkforMemProtectOn: 							# 0xD03C
-	cmplwi cr6, r4, 3 							# 0xD03C
-	MAKEBNE returnOne 		# 0xD05C			# 0xD040
+#checkforMemProtectOn: 							
+	cmplwi cr6, r4, 3 							
+	MAKEBNE returnOne 		# 0xD05C			
 			
-#setMemProtections: 							# 0xD044
-	li r0, 0 									# 0xD044
-	stw r6, 0(r5) 								# 0xD048
-	dcbst 0, r5 								# 0xD04C
-	icbi 0, r5 									# 0xD050
-	sync  										# 0xD054
-	isync  										# 0xD058
+#setMemProtections: 							
+	li r0, 0 									
+	stw r6, 0(r5) 								
+	dcbst 0, r5 								
+	icbi 0, r5 									
+	sync  										
+	isync  										
 			
-#returnOne: 									# 0xD05C 
-	li r3, 1 									# 0xD05C
-	blr 										# 0xD060
+#returnOne: 									
+	li r3, 1 									
+	blr 										
 			
-#hvxExecuteCode: 								# 0xD064
-	mflr r12 									# 0xD064
-	std r12, -8(r1) 							# 0xD068
-	stdu r1, -0x10(r1) 							# 0xD06C
-	mtlr r5 									# 0xD070
-	mtctr r7 									# 0xD074
+#hvxExecuteCode: 								
+	mflr r12 									
+	std r12, -8(r1) 							
+	stdu r1, -0x10(r1) 							
+	mtlr r5 									
+	mtctr r7 									
 		
-#cpyLoop: 										# 0xD078
-	lwz r4, 0(r6) 								# 0xD078
-	stw r4, 0(r5) 								# 0xD07C
-	dcbst 0, r5 								# 0xD080
-	icbi 0, r5 									# 0xD084
-	sync 										# 0xD088
-	isync 										# 0xD08C
-	addi r5, r5, 4 								# 0xD090
-	addi r6, r6, 4 								# 0xD094
-	MAKEBDNZ cpyLoop	# 0xD078				# 0xD098
-	blr 										# 0xD09C
-	addi r1, r1, 0x10 							# 0xD0A0
-	ld r12, -8(r1) 								# 0xD0A4
-	mtlr r12 									# 0xD0A8
-	blr 										# 0xD0AC
+#cpyLoop: 										
+	lwz r4, 0(r6) 								
+	stw r4, 0(r5) 								
+	dcbst 0, r5 								
+	icbi 0, r5 									
+	sync 										
+	isync 										
+	addi r5, r5, 4 								
+	addi r6, r6, 4 								
+	MAKEBDNZ cpyLoop	# 0xD078				
+	blr 										
+	addi r1, r1, 0x10 							
+	ld r12, -8(r1) 								
+	mtlr r12 									
+	blr 										
 			
-#doMemCpy:	 									# 0xD0B0
-	cmplwi cr6, r4, 5 							# 0xD0B0
-	MAKEBNE returnTwo 	#0xD0C8					# 0xD0B4
-	mr r3, r6 									# 0xD0B8
-	mr r4, r5 									# 0xD0BC
-	mr r5, r7 									# 0xD0C0
-	ba HV_memcpy 	# 0xC740					# 0xD0C4
+#doMemCpy:	 									
+	cmplwi cr6, r4, 5 							
+	MAKEBNE returnTwo 	#0xD0C8					
+	mr r3, r6 									
+	mr r4, r5 									
+	mr r5, r7 									
+	ba HV_memcpy 	# 0xC740					
 			
-#returnTwo: 									# 0xD0C8
-	li r3, 2 									# 0xD0C8
-	blr 										# 0xD0CC
+#returnTwo: 									
+	li r3, 2 									
+	blr 										
 9:
 
 
@@ -431,27 +431,27 @@ KMAKEPATCH 0x80117E88 # SataDiskAuthenticateDevice
 
 #KMAKEPATCH 0x8011C9E0 # empty space for loading dashlaunch / guess no dashlaunch on 6717 so why is this here???
 #0:											
-#	mr r31, r3				# 0x8011C9E0	
-#	cmpwi cr6, r31, 0		# 0x8011C9E4
-#	KMAKEBLT(0x8011c9f0)	# 0x8011C9E8
-#	KMAKEBEQ(0x8011c9f4)	# 0x8011C9EC
-#	blr 					# 0x8011C9F0
-#	lis r3, -0x7fee			# 0x8011C9F4
-#	ori r3, r3, 0xd038		# 0x8011C9F8
-#	lis r5, 0				# 0x8011C9FC
-#	li r4, 0				# 0x8011CA00
-#	ori r4, r4, 8			# 0x8011CA04
-#	li r6, 0				# 0x8011CA08
-#	KMAKEBRANCHL 0x80068db8 # 0x8011CA0C
-#	li r31, 0				# 0x8011CA10
-#	KMAKEBRANCH 0x80050b38	# 0x8011CA14
-#	.long 0x5C446576    	# 0x8011CA18
-#   .long 0x6963655C    	# 0x8011CA1C
-#   .long 0x466C6173    	# 0x8011CA20
-#   .long 0x685C6C61    	# 0x8011CA24
-#   .long 0x756E6368    	# 0x8011CA28
-#   .long 0x2E786578		# 0x8011CA2C
-#   .long 0x00000000		# 0x8011CA30
+#	mr r31, r3					
+#	cmpwi cr6, r31, 0		
+#	KMAKEBLT(0x8011c9f0)	
+#	KMAKEBEQ(0x8011c9f4)	
+#	blr 					
+#	lis r3, -0x7fee			
+#	ori r3, r3, 0xd038		
+#	lis r5, 0				
+#	li r4, 0				
+#	ori r4, r4, 8			
+#	li r6, 0				
+#	KMAKEBRANCHL 0x80068db8 
+#	li r31, 0				
+#	KMAKEBRANCH 0x80050b38	
+#	.long 0x5C446576    	
+#   .long 0x6963655C    	
+#   .long 0x466C6173    	
+#   .long 0x685C6C61    	
+#   .long 0x756E6368    	
+#   .long 0x2E786578		
+#   .long 0x00000000		
 #9:
 
 KMAKEPATCH 0x80078008 # XexGetModuleImportVersions 
