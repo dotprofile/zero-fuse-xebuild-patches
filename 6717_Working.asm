@@ -28,7 +28,7 @@ MAKEPATCH 0x000071C8
 9:
 
 
-MAKEPATCH 0x00007308  
+MAKEPATCH 0x00007308 
 0:
 	bla 0xCFD0
 9:
@@ -90,7 +90,7 @@ MAKEPATCH 0x00001420
 9:
 
 
-MAKEPATCH 0x0000114C 
+MAKEPATCH 0x0000114C #
 0:
 	ba 0x1570
 9:
@@ -159,19 +159,19 @@ MAKEPATCH 0x0000CF80
 	add r3, r3, r4 								
 	add r4, r3, r5 								
 	lis r3, 1 									
-	addi r3, r3, -0x60								
+	addi r3, r3, -0x60					
 	li r5, 0xc 									
 	bla CopyBy64 	# 0x78C						
 	li r3, 0x21									
 	bla 0xCFDC 		 							
 	li r3, 0xa									
 	bla 0xCFDC 									
-	mtlr r8  										
+	mtlr r8  									
 	ba resumeInit 	# 0x19A4 					
 
 #Fix Fuses
 	lis r3, 1 									
-	addi r3, r3, -0x60							
+	addi r3, r3, -0x60					
 	blr 										
 			
 #Post Output		
@@ -216,7 +216,7 @@ MAKEPATCH 0x0000CF80
 	sync  										
 	isync  										
 			
-#returnOne: 									
+#returnOne: 									 
 	li r3, 1 									
 	blr 										
 			
@@ -236,7 +236,7 @@ MAKEPATCH 0x0000CF80
 	isync 										
 	addi r5, r5, 4 								
 	addi r6, r6, 4 								
-	MAKEBDNZ cpyLoop	# 0xD078				
+	MAKEBDNZ cpyLoop			# 0xD078		
 	blr 										
 	addi r1, r1, 0x10 							
 	ld r12, -8(r1) 								
@@ -294,14 +294,15 @@ MAKEPATCH 0x00009540 # machinecheck
 
 MAKEPATCH 0x00009534 # CB sig check
 0:
-	li r3, 1
+	li r3, 1 # trying 0
+9:
 
 MAKEPATCH 0x0000957C # machinecheck
 0:
 	nop
 9:	
 
-MAKEPATCH 0x0000958C # machinecheck
+MAKEPATCH 0x0000958C # machinecheck 
 0:
 	nop
 9:
@@ -316,7 +317,7 @@ MAKEPATCH 0x000095B4 # machinecheck
 
 MAKEPATCH 0x00009FF0 # HvxKeysRsaPrvCrypt
 0:	
-	MAKEBRANCH (0xA020)
+	MAKEBRANCH (0xA020) #b
 9:
 
 MAKEPATCH 0x0000A1D8 # HvpCompareXGD2MediaID
@@ -360,11 +361,13 @@ MAKEPATCH 0x000042F0 # HvxCreateImageMapping
 	nop 
 9:
 
+
 # kernel patches
+
 
 KMAKEPATCH 0x8007718C # XexpLoadXexHeaders 
 0:
-	KMAKEBRANCH(0x8007719c) 
+	KMAKEBRANCH(0x8007719c) #  skip over BNE
 9:
 
 KMAKEPATCH 0x80077190 # XexpLoadXexHeaders
@@ -374,38 +377,38 @@ KMAKEPATCH 0x80077190 # XexpLoadXexHeaders
 	nop 
 9:
 
-KMAKEPATCH 0x800EB230 # XeKeysVerifyRSASignature 
+KMAKEPATCH 0x800EB230 # XeKeysVerifyRSASignature 	
 0:
 	li r3, 1
 	blr 
 9:
 
-KMAKEPATCH 0x800EC158 # _XeKeysRevokeIsValid 	
+KMAKEPATCH 0x800EC158 # _XeKeysRevokeIsValid 		
 0:
 	li r3, 1
 	blr 
 9:
 
-KMAKEPATCH 0x800EC1F8 # _XeKeysRevokeIsRevoked 	
+KMAKEPATCH 0x800EC1F8 # _XeKeysRevokeIsRevoked 		
 
 0:
 	li r3, 1
 	blr 
 9:
 
-KMAKEPATCH 0x800EC2C8 # XeKeysRevokeIsRevoked 	
+KMAKEPATCH 0x800EC2C8 # XeKeysRevokeIsRevoked 		
 0:
 	li r3, 1
 	blr 
 9:
 
-KMAKEPATCH 0x800EC340 # XeKeysRevokeConvertError 
+KMAKEPATCH 0x800EC340 # XeKeysRevokeConvertError 	
 0:
 	li r3, 1
 	blr 
 9:
 
-KMAKEPATCH 0x800F1300 # XeCryptBnQwBeSigVerify_0 
+KMAKEPATCH 0x800F1300 # XeCryptBnQwBeSigVerify_0 	
 0:
 	li r3, 1
 	blr 
@@ -422,7 +425,7 @@ KMAKEPATCH 0x800ECBA0 # XeKeysConsoleSignatureVerification
 	blr 
 9:
 
-KMAKEPATCH 0x80117E88 # SataDiskAuthenticateDevice
+KMAKEPATCH 0x80117E88 # SataDiskAuthenticateDevice 
 0:
 	li r3, 1
 	blr 
@@ -464,12 +467,12 @@ KMAKEPATCH 0x8008CD80 # SfcxInspectLargeMobileBlock
 	li r23, 0x10
 9:
 
-KMAKEPATCH 0x80077298 # XexpLoadFile
+KMAKEPATCH 0x80077298 # XexpLoadFile 
 0:
 	li r3, 0
 9:
 
-KMAKEPATCH 0x800772EC # XexpLoadFile 
+KMAKEPATCH 0x800772EC # XexpLoadFile
 0:
 	li r11, 0
 9:
@@ -484,7 +487,7 @@ KMAKEPATCH 0x8008FF10 # SataCdRomAP25Initialize
 KMAKEPATCH 0x800ECBF0 # XeKeysConsoleSignatureVerification 
 0:
 	li r3, 1
-	KMAKEBRANCH(0x800ecc18)
+	KMAKEBRANCH(0x800ecc18) 
 9:
 
 .long 0xffffffff
