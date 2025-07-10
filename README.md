@@ -42,9 +42,8 @@ Place in: J-Runner-with-Extras\xeBuild\9199\bin
 Copy _devgl.ini to: J-Runner-with-Extras\xeBuild\9199
 
 
-I noticed that building with Jrunner causes you to have a "fake" CPU key in dashlaunch/simple 360 nand flasher. This is just visual, I will look into Jrunner, perhaps the zero fuse button isn't doing anything for those versions and there needs to be tweaks to the app. I will look into that. 
-
 As long as you have a copy of SB_priv.bin in xeBuild\common, the devgl/zero fuse options will be active in J-Runner and will allow you to build an image. 
 
+Everything should function as it does on a regular hacked console. I really didn't change a whole lot, mostly additions of a few things to align with the flag fixer/vfuse/hvfixkeys of 17559. 
 
 I don't know much about zero fuse consoles other than the BB Jasper I have, and unsure if these will work on those as the patches are only for Jasper/Trinity/Corona (not sure if it will work on Trinity/Corona, I just stitched in my patches over the 17559 HV/Kernel patches).
