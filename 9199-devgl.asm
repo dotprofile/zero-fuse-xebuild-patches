@@ -174,114 +174,114 @@ MAKEPATCH 0x00004AA4 # HvxResolveImports
 
 MAKEPATCH 0x0000F568 							# Line Addr
 0:
-	mflr r8 									# 0xF568
-	lhz r3, 6(r0) 								# 0xF56C 
-	li r4, 0x1									# 0xF570
-	andc r3, r3, r4 							# 0xF574
-	sth r3, 6(r0) 	 							# 0xF578
+	mflr r8 							# 0xF568
+	lhz r3, 6(r0) 							# 0xF56C 
+	li r4, 0x1							# 0xF570 	# Other patches clear bit 5, with the mask 0x20. 17559 did 0x21 to clear 5 and 0. JTAG patches just hard-set word_6. After tinkering, found we just need to clear bit 0. Not sure of the explanation, yet. 
+	andc r3, r3, r4 						# 0xF574
+	sth r3, 6(r0) 	 						# 0xF578
 	bla HvpGetFlashBase # 0x998					# 0xF57C
-	lwz r4, 0x64(r3) 							# 0xF580	# reading/building vfuse addr from flash
-	lwz r5, 0x70(r3) 							# 0xF584	# reading/building vfuse addr from flash; flash base + e0000
-	add r3, r3, r4 								# 0xF588 
-	add r4, r3, r5 								# 0xF58C
-	lis r3, 1 									# 0xF590
-	addi r3, r3, -0x60	 						# 0xF594	
-	li r5, 0xc 									# 0xF598
+	lwz r4, 0x64(r3) 						# 0xF580	# reading/building vfuse addr from flash
+	lwz r5, 0x70(r3) 						# 0xF584	# reading/building vfuse addr from flash; flash base + e0000
+	add r3, r3, r4 							# 0xF588 
+	add r4, r3, r5 							# 0xF58C
+	lis r3, 1 							# 0xF590
+	addi r3, r3, -0x60	 					# 0xF594	
+	li r5, 0xc 							# 0xF598
 	bla CopyBy64 	# 0x78C						# 0xF59C
-	li r3, 0x21 								# 0xF5A0 
-	bla 0xF5C4 		 							# 0xF5A4
-	li r3, 0xa									# 0xF5A8
-	bla 0xF5C4 									# 0xF5AC
-	mtlr r8  									# 0xF5B0	
+	li r3, 0x21 							# 0xF5A0 
+	bla 0xF5C4 		 					# 0xF5A4
+	li r3, 0xa							# 0xF5A8
+	bla 0xF5C4 							# 0xF5AC
+	mtlr r8  							# 0xF5B0	
 	ba resumeInit 	# 0x19A4 					# 0xF5B4
 	
-	lis r3, 1 									# 0xF5B8
-	addi r3, r3, -0x60 							# 0xF5BC
-	blr 										# 0xF5C0
+	lis r3, 1 							# 0xF5B8
+	addi r3, r3, -0x60 						# 0xF5BC
+	blr 								# 0xF5C0
 	
 
-	lis r4, -0x8000 							# 0xF5C4 #post output
-	ori r4, r4, 0x200 							# 0xF5C8
-	sldi r4, r4, 0x20 							# 0xF5CC
+	lis r4, -0x8000 						# 0xF5C4 #post output
+	ori r4, r4, 0x200 						# 0xF5C8
+	sldi r4, r4, 0x20 						# 0xF5CC
 	oris r4, r4, 0xea00 						# 0xF5D0
-	slwi r3, r3, 0x18 							# 0xF5D4
-	stw r3, 0x1014(r4) 							# 0xF5D8
+	slwi r3, r3, 0x18 						# 0xF5D4
+	stw r3, 0x1014(r4) 						# 0xF5D8
 	
-	lwz r3, 0x1018(r4) 							# 0xF5DC
+	lwz r3, 0x1018(r4) 						# 0xF5DC
 	rlwinm. r3, r3, 0, 6, 6 					# 0xF5E0
-	MAKEBEQNOCR 0xF5DC 							# 0xF5E4
-	blr 										# 0xF5E8
+	MAKEBEQNOCR 0xF5DC 						# 0xF5E4
+	blr 								# 0xF5E8
 	
-	lis r11, 0x7262 							# 0xF5EC # magic key
+	lis r11, 0x7262 						# 0xF5EC # magic key
 	ori r11, r11, 0x7472 						# 0xF5F0
-	cmplw cr6, r3, r11 							# 0xF5F4
+	cmplw cr6, r3, r11 						# 0xF5F4
 	MAKEBEQ checkOpType		# 0xF600			# 0xF5F8
 	ba HvxGetVersions 		# 0x2030			# 0xF5FC
 	
-#checkOpType: 									# 0xF600
-	cmplwi cr6, r4, 4 							# 0xF600
+#checkOpType: 								
+	cmplwi cr6, r4, 4 						# 0xF600
 	MAKEBGT doMemCpy 	# 0xF698				# 0xF604
-	MAKEBEQ hvxExecuteCode 	# 0xF64C			# 0xF608
-	li r5, Hv_setmemprot 	# 0x1570			# 0xF60C
-	lis r6, 0x3880 								# 0xF610
-	cmplwi cr6, r4, 2 							# 0xF614
-	MAKEBNE checkforMemProtectOn # 0xF624		# 0xF618
-	ori r6, r6, 7 								# 0xF61C
-	MAKEBRANCH setMemProtections   # 0xF62C		# 0xF620
+	MAKEBEQ hvxExecuteCode 	# 0xF64C				# 0xF608
+	li r5, Hv_setmemprot 	# 0x1570				# 0xF60C
+	lis r6, 0x3880 							# 0xF610
+	cmplwi cr6, r4, 2 						# 0xF614
+	MAKEBNE checkforMemProtectOn # 0xF624				# 0xF618
+	ori r6, r6, 7 							# 0xF61C
+	MAKEBRANCH setMemProtections   # 0xF62C				# 0xF620
 	
-#checkforMemProtectOn: 							# 0xF624
-	cmplwi cr6, r4, 3 							# 0xF624
-	MAKEBNE returnOne 		# 0xF644			# 0xF628
+#checkforMemProtectOn: 							
+	cmplwi cr6, r4, 3 						# 0xF624
+	MAKEBNE returnOne 	# 0xF644				# 0xF628
 	
-#setMemProtections: 							# 0xF62C
-	li r0, 0 									# 0xF62C
-	stw r6, 0(r5) 								# 0xF630
-	dcbst 0, r5 								# 0xF634
-	icbi 0, r5 									# 0xF638
-	sync  										# 0xF63C
-	isync  										# 0xF640
+#setMemProtections: 							
+	li r0, 0 							# 0xF62C
+	stw r6, 0(r5) 							# 0xF630
+	dcbst 0, r5 							# 0xF634
+	icbi 0, r5 							# 0xF638
+	sync  								# 0xF63C
+	isync  								# 0xF640
 
-#returnOne: 									# 0xF644 
-	li r3, 1 									# 0xF644
-	blr 										# 0xF648
+#returnOne: 								
+	li r3, 1 							# 0xF644
+	blr 								# 0xF648
 
-#hvxExecuteCode: 								# 0xF64C
-	mflr r12 									# 0xF64C
-	std r12, -8(r1) 							# 0xF650
-	stdu r1, -0x10(r1) 							# 0xF654
-	mtlr r5 									# 0xF658
-	mtctr r7 									# 0xF65C
+#hvxExecuteCode: 							
+	mflr r12 							# 0xF64C
+	std r12, -8(r1) 						# 0xF650
+	stdu r1, -0x10(r1) 						# 0xF654
+	mtlr r5 							# 0xF658
+	mtctr r7 							# 0xF65C
 
-#cpyLoop: 										# 0xF660
-	lwz r4, 0(r6) 								# 0xF660
-	stw r4, 0(r5) 								# 0xF664
-	dcbst 0, r5 								# 0xF668
-	icbi 0, r5 									# 0xF66C
-	sync 										# 0xF670
-	isync 										# 0xF674
-	addi r5, r5, 4 								# 0xF678
-	addi r6, r6, 4 								# 0xF67C
-	MAKEBDNZ cpyLoop			# 0xF660		# 0xF680
-	blr 										# 0xF684
-	addi r1, r1, 0x10 							# 0xF688
-	ld r12, -8(r1) 								# 0xF68C
-	mtlr r12 									# 0xF690
-	blr 										# 0xF694
+#cpyLoop: 								
+	lwz r4, 0(r6) 							# 0xF660
+	stw r4, 0(r5) 							# 0xF664
+	dcbst 0, r5 							# 0xF668
+	icbi 0, r5 							# 0xF66C
+	sync 								# 0xF670
+	isync 								# 0xF674
+	addi r5, r5, 4 							# 0xF678
+	addi r6, r6, 4 							# 0xF67C
+	MAKEBDNZ cpyLoop	# 0xF660				# 0xF680
+	blr 								# 0xF684
+	addi r1, r1, 0x10 						# 0xF688
+	ld r12, -8(r1) 							# 0xF68C
+	mtlr r12 							# 0xF690
+	blr 								# 0xF694
 
-#doMemCpy:	 									# 0xF698
-	cmplwi cr6, r4, 5 							# 0xF698
+#doMemCpy:	 							
+	cmplwi cr6, r4, 5 						# 0xF698
 	MAKEBNE returnTwo 	#0xF6C0					# 0xF69C
-	mr r3, r6 									# 0xF6A0
-	mr r4, r5 									# 0xF6A4
-	mr r5, r7 									# 0xF6A8
+	mr r3, r6 							# 0xF6A0
+	mr r4, r5 							# 0xF6A4
+	mr r5, r7 							# 0xF6A8
 	ba HV_memcpy 	# 0xED20					# 0xF6AC
 
-#returnTwo: 									# 0xF6B0
-	li r3, 2 									# 0xF6B0
-	blr 										# 0xF6B4
+#returnTwo: 								
+	li r3, 2 							# 0xF6B0
+	blr 								# 0xF6B4
 9:
 
-MAKEPATCH 0x00001C98
+MAKEPATCH 0x00001C98 # Replace Syscall0 with our own 
 0:
 	.long 0x0000F5EC
 9:
@@ -366,13 +366,6 @@ MAKEPATCH 0x0000A260 # HvpCompareXGD2MediaID
 	blr 
 9:
 
-#MAKEPATCH 0x0000B5F0 # HvpDvdDecryptFcrt
-#0:
-#	li r3, 1
-#9:
-
-
-
 MAKEPATCH 0x0000EAA8 # HvxInstallExpansion
 0:
 	li r3, 1
@@ -413,6 +406,7 @@ MAKEPATCH 0x00003A48 # HvxCreateImageMapping
 9:
 
 
+# Kernel Patches
 
 KMAKEPATCH 0x800785E4 # XexpLoadXexHeaders 
 0:
