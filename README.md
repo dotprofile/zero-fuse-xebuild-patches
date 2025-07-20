@@ -5,6 +5,8 @@ Right now:
 
 6717
 
+7258
+
 9199
 
 Soon:
@@ -32,6 +34,10 @@ Copy all the bin files from     xeBuild/6717/bin
 Place in: J-Runner-with-Extras\xeBuild\6717\bin
 
 Copy _devgl.ini to: J-Runner-with-Extras\xeBuild\6717
+
+Instructions for use for 7258:
+
+Extract 7258.zip into J-Runner-with-Extras\xeBuild
 
 Instructions for use for 9199:
 
