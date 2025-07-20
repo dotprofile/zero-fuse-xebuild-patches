@@ -39,6 +39,10 @@ Instructions for use for 7258:
 
 Extract 7258.zip into J-Runner-with-Extras\xeBuild
 
+
+Note: For 7258 it had issues with my SSD. A stock HDD was fine, and also a newly formatted SSD also worked. Not sure what is up with that just FYI. I will chalk it up to beta things. 
+
+
 Instructions for use for 9199:
 
 Copy all the bin files from     xeBuild/9199/bin
