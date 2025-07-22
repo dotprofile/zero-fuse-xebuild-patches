@@ -9,9 +9,8 @@ Right now:
 
 9199
 
-Soon:
-
 13604
+
 
 
 
@@ -51,6 +50,14 @@ Place in: J-Runner-with-Extras\xeBuild\9199\bin
 
 Copy _devgl.ini to: J-Runner-with-Extras\xeBuild\9199
 
+
+Instructions for use for 13604:
+
+Copy all the bin files from     xeBuild/13604bin
+
+Place in: J-Runner-with-Extras\xeBuild\13604\bin
+
+Copy _devgl.ini to: J-Runner-with-Extras\xeBuild\13604
 
 As long as you have a copy of SB_priv.bin in xeBuild\common, the devgl/zero fuse options will be active in J-Runner and will allow you to build an image. 
 
