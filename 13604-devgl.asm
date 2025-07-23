@@ -1,102 +1,102 @@
 .include "macros.S"
 
 
-MAKEPATCH 0x0000189C 
+MAKEPATCH 0x0000189C # init
 0:
 	bla 0xA474
 9:
 
-MAKEPATCH 0x00001E68 
+MAKEPATCH 0x00001E68 # vfuse
 0:
 	bla 0xA4C4
 9:
 
-MAKEPATCH 0x00001E7C
+MAKEPATCH 0x00001E7C # vfuse
 0:
 	addi r11, r11, 1
 	cmplwi cr6, r11, 0xc
 9:
 
-MAKEPATCH 0x00008A80
+MAKEPATCH 0x00008A80 # vfuse
 0:
 	bla 0xA4C4
 9:
 
-MAKEPATCH 0x00008AB0
+MAKEPATCH 0x00008AB0 # vfuse
 0:
 	addi r11, r11, 1
 	cmplwi cr6, r11, 0xc
 9:
 
-MAKEPATCH 0x00008BF0
+MAKEPATCH 0x00008BF0 # vfuse
 0:
 	bla 0xA4C4
 9:
 
-MAKEPATCH 0x00008C20
+MAKEPATCH 0x00008C20 # vfuse
 0:
 	addi r11, r11, 1
 	cmplwi cr6, r11, 0xc
 9:
 
-MAKEPATCH 0x00008D10
+MAKEPATCH 0x00008D10 # vfuse
 0:
 	bla 0xA4C4
 9:
 
-MAKEPATCH 0x00008D40
+MAKEPATCH 0x00008D40 # vfuse
 0:
 	addi r11, r11, 1
 	cmplwi cr6, r11, 0xc
 9:
 
-MAKEPATCH 0x00008F80
+MAKEPATCH 0x00008F80 # vfuse
 0:
 	bla 0xA4C4
 9:
 
-MAKEPATCH 0x00008FB0
+MAKEPATCH 0x00008FB0 # vfuse
 0:
 	addi r11, r11, 1
 	cmplwi cr6, r11, 0xc
 9:
 
-MAKEPATCH 0x000090D0
+MAKEPATCH 0x000090D0 # vfuse
 0:
 	bla 0xA4C4
 9:
 
-MAKEPATCH 0x00009100
+MAKEPATCH 0x00009100 # vfuse
 0:
 	addi r11, r11, 1
 	cmplwi cr6, r11, 0xc
 9:
 
-MAKEPATCH 0x00009190
+MAKEPATCH 0x00009190 # vfuse
 0:
 	bla 0xA4C4
 9:
 
-MAKEPATCH 0x000091BC
+MAKEPATCH 0x000091BC # vfuse
 0:
 	addi r11, r11, 1
 	sldi r9, r9, 3
 	cmpwi cr6, r11, 0xc
 9:
 
-MAKEPATCH 0x00009430
+MAKEPATCH 0x00009430 # vfuse
 0:
 	bla 0xA4C4
 9:
 
-MAKEPATCH 0x0000945C
+MAKEPATCH 0x0000945C # vfuse
 0:
 	addi r11, r11, 1
 	sldi r9, r9, 3
 	cmpwi cr6, r11, 0xc
 9:
 
-MAKEPATCH 0x000000F0
+MAKEPATCH 0x000000F0 # devkit xex key
 0:
 	.long 0x00000000
 	.long 0x00000000
@@ -117,29 +117,29 @@ MAKEPATCH 0x0000154C
 	ba 0x11c0
 9:
 
-MAKEPATCH 0x00002B04 
+MAKEPATCH 0x00002B04 # machine check
 0:
 	nop
 9:
 
-MAKEPATCH 0x00009520
+MAKEPATCH 0x00009520 # HvxLockL2 
 0:
 	li r3, 1
 	blr
 9:
 
-MAKEPATCH 0x0002A14C
+MAKEPATCH 0x0002A14C # HvxLoadImageData
 0:
 	nop 
 	nop 
 9:
 
-MAKEPATCH 0x0002A8C0
+MAKEPATCH 0x0002A8C0 # HvxResolveImports
 0:
 	nop 
 9:
 
-MAKEPATCH 0x0002A8CC
+MAKEPATCH 0x0002A8CC # HvxResolveImports
 0:
 	nop 
 9:
@@ -179,7 +179,7 @@ MAKEPATCH 0x0000A474
 	add r3, r3, r4 								
 	add r4, r3, r5 								
 	lis r3, 1 									
-	addi r3, r3, -0x200					
+	addi r3, r3, -0x60					
 	li r5, 0xc 									
 	bla CopyBy64					
 	li r3, 0x21									
@@ -191,7 +191,7 @@ MAKEPATCH 0x0000A474
 
 #Fix Fuses
 	lis r3, 1 									
-	addi r3, r3, -0x200					
+	addi r3, r3, -0x60					
 	blr 										
 			
 #Post Output		
@@ -276,37 +276,32 @@ MAKEPATCH 0x0000A474
 	blr 										
 9:
 
-#MAKEPATCH 0x000093D8
-#0:
-#    li r11, 0
-#9:
 
-
-MAKEPATCH 0x00015980
+MAKEPATCH 0x00015980 # replace syscall0
 0:
 	.long 0x0000A4F8
 9:
 
 
-MAKEPATCH 0x00006250 
+MAKEPATCH 0x00006250  # HvxSecuritySetDetected
 0:
 	li r3, 0
 	blr 
 9:
 
-MAKEPATCH 0x000062E0 
+MAKEPATCH 0x000062E0 # HvxSecurityGetDetected
 0:
 	li r3, 0
 	blr 
 9:
 
-MAKEPATCH 0x00006328 
+MAKEPATCH 0x00006328 # HvxSecuritySetActivated
 0:
 	li r3, 0
 	blr 
 9:
 
-MAKEPATCH 0x00006390 
+MAKEPATCH 0x00006390 # HvxSecurityGetActivated
 0:
 	li r3, 0
 	blr 
@@ -318,70 +313,44 @@ MAKEPATCH 0x000063D8
 	blr 
 9:
 
-MAKEPATCH 0x00007650 
+MAKEPATCH 0x00007650 #  HvxKeysRsaPrvCrypt
 0:
 	MAKEBRANCH 0x7680
 9:
 
-#MAKEPATCH 0x000065C0
-#0:
-#    nop
-#9:
-#
-#MAKEPATCH 0x000065E4
-#0:
-#    nop
-#9:
-#
 
-
-MAKEPATCH 0x000066C8
+MAKEPATCH 0x000066C8 # CB check
 0:
 	li r3, 1
 9:
 
-MAKEPATCH 0x000066D0 
+MAKEPATCH 0x000066D0 # machinecheck
 0:
 	nop 
 9:
 
-#MAKEPATCH 0x00006738
-#0:
-#    nop
-#9:
-
-MAKEPATCH 0x00006884
+MAKEPATCH 0x00006884 # CD check
 0:
 	li r3, 0
 9:
 
-#MAKEPATCH 0x00006890
-#0:
-#    nop
-#9:
-
-#MAKEPATCH 0x00006894
-#0:
-#    nop
-#9:
-
-MAKEPATCH 0x000068D0
+MAKEPATCH 0x000068D0 # machinecheck
 0:
 	nop
 9:
 
-MAKEPATCH 0x000068E0
+MAKEPATCH 0x000068E0 # machinecheck
 0:
 	nop
 9:
 
-MAKEPATCH 0x00006904 
+MAKEPATCH 0x00006904 # machinecheck
 0:
 	nop 
 	li r11, 1
 9:	
 
-MAKEPATCH 0x00024B98 
+MAKEPATCH 0x00024B98 # HvpCompareXGD2MediaID
 0:
 	li r3, 1
 	blr 
@@ -407,17 +376,17 @@ MAKEPATCH 0x00029948
 	li r31, 0
 9:
 
-MAKEPATCH 0x0002BE20 
+MAKEPATCH 0x0002BE20 # HvxCreateImageMapping
 0:
 	li r3, 0
 9:
 
-MAKEPATCH 0x0002C0B8 
+MAKEPATCH 0x0002C0B8  # HvxCreateImageMapping
 0:
 	nop 
 9:
 
-MAKEPATCH 0x0003089C
+MAKEPATCH 0x0003089C # HvxInstallExpansion
 0:
 	MAKEBNE 0x308a4
 	li r29, 0
@@ -425,12 +394,12 @@ MAKEPATCH 0x0003089C
 	nop 
 9:
 
-MAKEPATCH 0x000304E8 	
+MAKEPATCH 0x000304E8 # HvpInstallExpansion
 0:
 	nop 
 9:
 
-MAKEPATCH 0x000304FC 
+MAKEPATCH 0x000304FC # HvpInstallExpansion
 0:
 	nop 
 9:
@@ -439,28 +408,28 @@ MAKEPATCH 0x000304FC
 
 # kernel patches
 
-KMAKEPATCH 0x8007AC80
+KMAKEPATCH 0x8007AC80 # _XeKeysSecurityConvertError
 0:
 	li r3, 0
 	blr 
 9:
 
-KMAKEPATCH 0x8007B818
+KMAKEPATCH 0x8007B818 # XexpLoadXexHeaders
 0:
 	li r3, 1
 9:
 
-KMAKEPATCH 0x8007B928
+KMAKEPATCH 0x8007B928 # XexpLoadXexHeaders
 0:
 	li r3, 0
 9:
 
-KMAKEPATCH 0x8007B990
+KMAKEPATCH 0x8007B990 # XexpLoadFile
 0:
 	li r11, 0
 9:
 
-KMAKEPATCH 0x8007B9E0
+KMAKEPATCH 0x8007B9E0 # XexpLoadFile
 0:
 	li r11, 0
 9:
@@ -549,13 +518,13 @@ KMAKEPATCH 0x80109040
 	KMAKEBRANCH 0x80109068
 9:
 
-KMAKEPATCH 0x8014B160
+KMAKEPATCH 0x8014B160 # # SataDiskAuthenticateDevice
 0:
 	li r3, 1
 	blr 
 9:
 
-KMAKEPATCH 0x8014EE00
+KMAKEPATCH 0x8014EE00 # empty spot
 0:
 	mr r30, r3
 	cmpwi cr6, r30, 0
@@ -580,7 +549,7 @@ KMAKEPATCH 0x8014EE00
 	.long 0x00000000
 9:
 
-KMAKEPATCH 0x80061388
+KMAKEPATCH 0x80061388 #phase1 init branch and link to dashlaunch
 0:
 	KMAKEBRANCHL 0x8014ee00
 9:
