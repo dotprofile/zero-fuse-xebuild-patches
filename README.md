@@ -11,6 +11,8 @@ Right now:
 
 13604
 
+15574
+
 
 
 
@@ -25,39 +27,12 @@ https://github.com/GoobyCorp/Xbox-360-Crypto/
 https://github.com/g91/XBLS
 
 
-
-Instructions for use for 6717: 
-
-Copy all the bin files from     xeBuild/6717/bin
-
-Place in: J-Runner-with-Extras\xeBuild\6717\bin
-
-Copy _devgl.ini to: J-Runner-with-Extras\xeBuild\6717
-
-Instructions for use for 7258:
-
-Extract 7258.zip into J-Runner-with-Extras\xeBuild
+Instructions for use: Download the zip file from https://github.com/dotprofile/zero-fuse-xebuild-patches/releases and extract, copy the XeBuild folder into your J-Runner With Extras folder, and restart J-Runner
 
 
 Note: For 7258 it had issues with my SSD. A stock HDD was fine, and also a newly formatted SSD also worked. Not sure what is up with that just FYI. I will chalk it up to beta things. 
 
 
-Instructions for use for 9199:
-
-Copy all the bin files from     xeBuild/9199/bin
-
-Place in: J-Runner-with-Extras\xeBuild\9199\bin
-
-Copy _devgl.ini to: J-Runner-with-Extras\xeBuild\9199
-
-
-Instructions for use for 13604:
-
-Copy all the bin files from     xeBuild/13604bin
-
-Place in: J-Runner-with-Extras\xeBuild\13604\bin
-
-Copy _devgl.ini to: J-Runner-with-Extras\xeBuild\13604
 
 As long as you have a copy of SB_priv.bin in xeBuild\common, the devgl/zero fuse options will be active in J-Runner and will allow you to build an image. 
 
