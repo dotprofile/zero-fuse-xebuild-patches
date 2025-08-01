@@ -11,7 +11,7 @@ Right now:
 
 13604
 
-15574 ( dashlaunch plugins cause E79 ATM, working on a fix)
+15574
 
 
 
