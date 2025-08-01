@@ -385,48 +385,48 @@ MAKEPATCH 0x000304FC # HvpInstallExpansion
 	nop 
 9:
 
-KMAKEPATCH 0x8007AC80
+MAKEPATCH 0x0007AC80
 0:
 	li r3, 0
 	blr 
 9:
 
-KMAKEPATCH 0x8007B818
+MAKEPATCH 0x0007B818
 0:
 	li r3, 1
 9:
 
-KMAKEPATCH 0x8007B928
+MAKEPATCH 0x0007B928
 0:
 	li r3, 0
 9:
 
-KMAKEPATCH 0x8007B990
+MAKEPATCH 0x0007B990
 0:
 	li r11, 0
 9:
 
-KMAKEPATCH 0x8007B9E0
+MAKEPATCH 0x0007B9E0
 0:
 	li r11, 0
 9:
 
-KMAKEPATCH 0x8007C850
+MAKEPATCH 0x0007C850
 0:
 	li r3, 0
 9:
 
-KMAKEPATCH 0x80093FD8
+MAKEPATCH 0x00093FD8
 0:
 	li r23, 0x10
 9:
 
-KMAKEPATCH 0x800988F8
+MAKEPATCH 0x000988F8
 0:
 	cmplwi cr6, r11, 0xff
 9:
 
-KMAKEPATCH 0x800982DC # SataDiskReadLogoBitmap
+MAKEPATCH 0x000982DC
 0:
 	li r3, 0
 	nop 
@@ -435,136 +435,98 @@ KMAKEPATCH 0x800982DC # SataDiskReadLogoBitmap
 	nop 
 9:
 
-KMAKEPATCH 0x80109A80
+MAKEPATCH 0x00109A80
 0:
 	li r3, 1
 	blr 
 9:
 
-KMAKEPATCH 0x8010A578
+MAKEPATCH 0x0010A578
 0:
 	li r3, 0
 	blr 
 9:
 
-KMAKEPATCH 0x8010A858
+MAKEPATCH 0x0010A858
 0:
 	li r3, 0
 	blr 
 9:
 
-KMAKEPATCH 0x8010AD20
+MAKEPATCH 0x0010AD20
 0:
 	li r3, 1
 	blr 
 9:
 
-KMAKEPATCH 0x8010AED8
+MAKEPATCH 0x0010AED8
 0:
 	li r3, 0
 	blr 
 9:
 
-KMAKEPATCH 0x8010AF28
+MAKEPATCH 0x0010AF28
 0:
 	li r3, 0
 	blr 
 9:
 
-KMAKEPATCH 0x8010B068
+MAKEPATCH 0x0010B068
 0:
 	li r3, 0
 	blr 
 9:
 
-KMAKEPATCH 0x8010B1E8
+MAKEPATCH 0x0010B1E8
 0:
 	li r3, 0
 	blr 
 9:
 
-KMAKEPATCH 0x8010BD10
+MAKEPATCH 0x0010BD60
 0:
-	cmplwi cr6, r5, 0
 	li r3, 1
-	KMAKEBEQ 0x8010BD20
-	stw r3, 0(r5)
-	blr 
+	b 0x10bd88
 9:
 
-KMAKEPATCH 0x801106B0
+MAKEPATCH 0x001106B0
 0:
 	li r3, 1
 	blr 
 9:
 
-KMAKEPATCH 0x80156D70
+MAKEPATCH 0x00156D70
 0:
 	li r3, 1
 	blr 
 9:
 
-KMAKEPATCH 0x8010BD30 # in body of XeKeysConsoleSignatureVerification
+MAKEPATCH 0x00156D78
 0:
-    KMAKEBGE 0x8010BD38      					# 0x10BD30
-    blr                        					# 0x10BD34
-    lis     r3, -0x7FF0        					# 0x10BD38
-    lis     r5, 0               				# 0x10BD3C
-    li      r4, 0               				# 0x10BD40
-    ori     r4, r4, 8           				# 0x10BD44
-    ori     r3, r3, 0xBDC0      				# 0x10BD48
-    li      r6, 0               				# 0x10BD4C
-    KMAKEBRANCHL      0x8007CA60            	# 0x10BD50
-    li      r3, 0               				# 0x10BD54
-    lis     r4, -0x7FF0         				# 0x10BD58
-    ori     r4, r4, 0xBDDC      				# 0x10BD5C
-    isync                      					# 0x10BD60
-    stw     r3, 0(r4)           				# 0x10BD64
-    KMAKEBRANCH       0x8006139c          		# 0x10BD68
-    addi    r5, r1, 0x54        				# 0x10BD6C
-    lis     r7, -0x7FF0         				# 0x10BD70
-    ori     r7, r7, 0xBDDC      				# 0x10BD74
-    lwz     r8, 0(r7)           				# 0x10BD78
-    isync                      					# 0x10BD7C
-    cmplwi  cr6, r8, 0          				# 0x10BD80
-    KMAKEBEQ 0x8010BD90       					# 0x10BD84
-    mr      r31, r31            				# 0x10BD88
-    KMAKEBRANCH       0x8010BD78            	# 0x10BD8C
-    blr                        					# 0x10BD90
-    cmplwi  cr6, r3, 0x14       				# 0x10BD94
-    KMAKEBNE 0x8010BDBC     					# 0x10BD98
-    lis     r7, -0x7FF0         				# 0x10BD9C
-    ori     r7, r7, 0xBDDC      				# 0x10BDA0
-    lwz     r8, 0(r7)           				# 0x10BDA4
-    isync                      					# 0x10BDA8
-    cmplwi  cr6, r8, 0          				# 0x10BDAC
-    KMAKEBEQ 0x8010BDBC       					# 0x10BDB0
-    mr      r31, r31            				# 0x10BDB4
-    KMAKEBRANCH       0x8010BDA4          		# 0x10BDB8
-    KMAKEBRANCH       0x80108230          		# 0x10BDBC
-    .long   0x5C446576          				# 0x10BDC0
-    .long   0x6963655C          				# 0x10BDC4
-    .long   0x466C6173          				# 0x10BDC8
-    .long   0x685C6C61          				# 0x10BDCC
-    .long   0x756E6368          				# 0x10BDD0
-    .long   0x2E786578          				# 0x10BDD4
-    .long   0x00000000          				# 0x10BDD8
-    .long   0x12345678          				# 0x10BDDC
+	bge 0x156d80
+	blr 
+	lis r3, -0x7feb
+	lis r5, 0
+	li r4, 0
+	ori r4, r4, 8
+	ori r3, r3, 0x6da4
+	li r6, 0
+	bl 0x7ca60
+	li r3, 0
+	b 0x6139c
+	.long   0x5C446576
+	.long   0x6963655C
+	.long   0x466C6173
+	.long   0x685C6C61
+	.long   0x756E6368
+	.long   0x2E786578
+	.long   0x00000000
 9:
 
-KMAKEPATCH 0x8006138C
+MAKEPATCH 0x0006138C
 0:
-	KMAKEBRANCHL 0x8010BD30
+	bl 0x156d78
 9:
 
-MAKEPATCH 0x0007CA98 # XexLoadExecutable # pointing into dead body of XeKeysConsoleSignatureVerification
-0:
-	KMAKEBRANCHL 0x8010BD6C
-9:
-
-KMAKEPATCH 0x80108CC8
-0:
-	KMAKEBRANCH 0x8010BD94
-9:
 
 .long 0xffffffff
