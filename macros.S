@@ -168,6 +168,14 @@
 .endif
 .endm
 
+.macro MAKEBLTNOCR DEST
+.if (\DEST)
+    .set  _d,(\DEST)
+    .set  _o,_d - ((.-0b)+PatchAddr)
+    blt    _o
+.endif
+.endm
+
 .macro MAKEBDNZ DEST
 .if (\DEST)
     .set  _d,(\DEST)
@@ -176,7 +184,13 @@
 .endif
 .endm
 
-
+.macro KMAKEBGE DEST
+.if (\DEST)
+    .set  _kernelDest, (\DEST - KBASE)
+    .set  _offset, _kernelDest - ((.-0b) + PatchAddr)
+    bge    cr6, _offset
+.endif
+.endm
 
 .macro KMAKEBEQ DEST
 .if (\DEST)
@@ -199,6 +213,14 @@
     .set  _kernelDest, (\DEST - KBASE)
     .set  _offset, _kernelDest - ((.-0b) + PatchAddr)
     bgt    cr6, _offset
+.endif
+.endm
+
+.macro KMAKEBGTNOCR DEST
+.if (\DEST)
+    .set  _kernelDest, (\DEST - KBASE)
+    .set  _offset, _kernelDest - ((.-0b) + PatchAddr)
+    bgt    _offset
 .endif
 .endm
 
