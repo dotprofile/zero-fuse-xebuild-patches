@@ -38,7 +38,7 @@ As long as you have a copy of SB_priv.bin in xeBuild\common, the devgl/zero fuse
 
 Everything should function as it does on a regular hacked console. I really didn't change a whole lot, mostly additions of a few things to align with the flag fixer/vfuse/hvfixkeys of 17559. 
 
-I don't know much about zero fuse consoles other than the BB Jasper I have, and unsure if these will work on those as the patches are only for Jasper/Trinity/Corona (not sure if it will work on Trinity/Corona, I just stitched in my patches over the 17559 HV/Kernel patches).
+Patches have been tested on Jasper, Falcon, Zephyr, and Trinity (only 9199 and above work on Trinity)
 
 <img width="327" height="256" alt="{61A707CB-3149-40B4-B095-D651BAF637AA}" src="https://github.com/user-attachments/assets/96d9d8f1-2ffd-45e4-a33d-72c3e811e6ac" />
 
