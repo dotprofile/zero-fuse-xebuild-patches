@@ -176,7 +176,7 @@ MAKEPATCH 0x0000F568 							# Line Addr
 0:
 	mflr r8 							# 0xF568
 	lhz r3, 6(r0) 							# 0xF56C 
-	li r4, 0x1							# 0xF570 	# Other patches clear bit 5, with the mask 0x20. 17559 did 0x21 to clear 5 and 0. JTAG patches just hard-set word_6. After tinkering, found we just need to clear bit 0. Not sure of the explanation, yet. 
+	li r4, 0x21							# 0xF570 	# set bitmask to 0x21 for flags (was 0x1, was conflating this with some other issue at the time)
 	andc r3, r3, r4 						# 0xF574
 	sth r3, 6(r0) 	 						# 0xF578
 	bla HvpGetFlashBase # 0x998					# 0xF57C
@@ -534,5 +534,6 @@ KMAKEPATCH 0x800F7D50 #  XeKeysConsoleSignatureVerification
 9:
 
 .long 0xffffffff
+
 
 
