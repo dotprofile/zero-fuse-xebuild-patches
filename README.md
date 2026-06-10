@@ -1,4 +1,9 @@
 # zero-fuse-xebuild-patches
+
+**NOTE, these are now included in Jrunner: Download the release here: https://github.com/J-Runner-With-Extras/J-Runner-with-Extras/releases**
+
+
+
 Additional patches for Zero Fuse Xbox 360 consoles, the aim is to port more dash versions to Zero Fuse consoles
 
 Right now: 
